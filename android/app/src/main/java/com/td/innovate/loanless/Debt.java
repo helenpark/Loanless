@@ -36,7 +36,7 @@ public class Debt {
     double creditAvailable;
 
 
-    public Debt (String type, double mp, double mb, float pi, double ci, double p, double cb, double pb, double cl) {
+    public Debt (String type, double mp, double mb, double pi, double ci, double p, double cb, double pb, double cl) {
         debtType = type;
         minPayment = mp;
         principal = p;
@@ -50,29 +50,22 @@ public class Debt {
         creditAvailable = cl-(cb+pb);
     }
 
-    public Debt (JSONObject jData) {
+    public Debt (JSONObject innerJObject) {
 
         try
         {
-            Iterator<String> keys = jData.keys();
-            while( keys.hasNext() )
-            {
-                String key = keys.next();
-
-                JSONObject innerJObject = jData.getJSONObject(key);
-                this.debtType = innerJObject.getString("debtType");
-                this.minPayment = innerJObject.getDouble("minPayment");
-                this.minBalance = innerJObject.getDouble("minBalance");
-                this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
-                this.cashInterest = innerJObject.getDouble("cashInterest");
-                this.principal = innerJObject.getDouble("principal");
-                this.creditBalance = innerJObject.getDouble("creditBalance");
-                this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
-                this.cashBalance = innerJObject.getDouble("cashBalance");
-                this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
-                this.creditLimit = innerJObject.getDouble("creditLimit");
-                this.creditAvailable = innerJObject.getDouble("creditAvailable");
-            }
+            this.debtType = innerJObject.getString("debtType");
+            this.minPayment = innerJObject.getDouble("minPayment");
+            this.minBalance = innerJObject.getDouble("minBalance");
+            this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
+            this.cashInterest = innerJObject.getDouble("cashInterest");
+            this.principal = innerJObject.getDouble("principal");
+            this.creditBalance = innerJObject.getDouble("creditBalance");
+            this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
+            this.cashBalance = innerJObject.getDouble("cashBalance");
+            this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
+            this.creditLimit = innerJObject.getDouble("creditLimit");
+            this.creditAvailable = innerJObject.getDouble("creditAvailable");
         }
         catch (JSONException e){
             e.printStackTrace();
