@@ -1,9 +1,8 @@
 package com.td.innovate.loanless;
-import android.util.Log;
 
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.util.Iterator;
 
@@ -13,32 +12,42 @@ import java.util.Iterator;
  */
 public class Debt {
 
+    //credit, loan, student loan
     String debtType;
-    BigDecimal minPayment;
-    BigDecimal minBalance;
-    float purchasesInterest;
-    float cashInterest;
-    BigDecimal principal;
-    BigDecimal creditBalance;
-    BigDecimal purchasesBalance;
-    BigDecimal cashBalance;
-    BigDecimal creditLimit;
-    BigDecimal creditAvailable;
+    //loan: automated monthly payments
+    double minPayment;
+    //loan: principal amount borrowed for loan
+    double principal;
+    //credit: manual monthly payments
+    double minBalance;
+    //credit: goods purchased
+    double purchasesInterest;
+    //credit: cash withdrawn
+    double cashInterest;
+    //credit: amount spent thus far
+    double creditBalance;
+    //credit: amount purchases spent thus far
+    double purchasesBalance;
+    //credit: amount cash spent thus far
+    double cashBalance;
+    //credit: limit
+    double creditLimit;
+    //credit: amount left to use
+    double creditAvailable;
 
 
-
-    public Debt (String type, BigDecimal mp, BigDecimal mb, float pi, float ci, BigDecimal p, BigDecimal cb, BigDecimal pb, BigDecimal cl) {
+    public Debt (String type, double mp, double mb, float pi, double ci, double p, double cb, double pb, double cl) {
         debtType = type;
         minPayment = mp;
+        principal = p;
         minBalance = mb;
         purchasesInterest = pi;
         cashInterest = ci;
-        principal = p;
         purchasesBalance = pb;
-        creditBalance = cb.add(pb);
+        creditBalance = cb+pb;
         cashBalance = cb;
         creditLimit = cl;
-        creditAvailable = cl.subtract(cb.add(pb));
+        creditAvailable = cl-(cb+pb);
     }
 
     public Debt (JSONObject jData) {
@@ -51,7 +60,7 @@ public class Debt {
                 String key = keys.next();
 
                 JSONObject innerJObject = jData.getJSONObject(key);
-                this.debtType = innerJObject.getDouble("debtType");
+                this.debtType = innerJObject.getString("debtType");
                 this.minPayment = innerJObject.getDouble("minPayment");
                 this.minBalance = innerJObject.getDouble("minBalance");
                 this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
@@ -71,20 +80,25 @@ public class Debt {
     }
 
     public String getJSONObject() {
-        JSONObject json = new JSONObject();
-        json.put("debtType", debtType);
-        json.put("minPayment", minPayment);
-        json.put("minBalance", minBalance);
-        json.put("purchasesInterest", purchasesInterest);
-        json.put("cashInterest", cashInterest);
-        json.put("principal", principal);
-        json.put("creditBalance", creditBalance);
-        json.put("purchasesBalance", purchasesBalance);
-        json.put("cashBalance", cashBalance);
-        json.put("purchasesInterest", purchasesInterest);
-        json.put("creditLimit", creditLimit);
-        json.put("creditAvailable", creditAvailable);
-
-        return json;
+        try {
+            JSONObject json = new JSONObject();
+            json.put("debtType", debtType);
+            json.put("minPayment", minPayment);
+            json.put("minBalance", minBalance);
+            json.put("purchasesInterest", purchasesInterest);
+            json.put("cashInterest", cashInterest);
+            json.put("principal", principal);
+            json.put("creditBalance", creditBalance);
+            json.put("purchasesBalance", purchasesBalance);
+            json.put("cashBalance", cashBalance);
+            json.put("purchasesInterest", purchasesInterest);
+            json.put("creditLimit", creditLimit);
+            json.put("creditAvailable", creditAvailable);
+            return json.toString();
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }
