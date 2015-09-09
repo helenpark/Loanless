@@ -24,7 +24,7 @@ public class DebtStorage {
     public DebtStorage() {
     }
 
-    public void storeDebtToSharedPrefs(Context context, List<Debt> data) {
+    public void storeDebtToSharedPrefs(Context context, ArrayList<Debt> data) {
         try {
             SharedPreferences sp = context.getSharedPreferences(STORAGE_FILE_NAME, Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -52,8 +52,8 @@ public class DebtStorage {
         }
     }
 
-    public List<Debt> getDebtFromSharedPrefs (Context context) {
-        List<Debt> debtList = new ArrayList<Debt>();
+    public ArrayList<Debt> getDebtFromSharedPrefs (Context context) {
+        ArrayList<Debt> debtList = new ArrayList<Debt>();
 
         // TO READ FROM SHARED PREFERENCES
         SharedPreferences sp = context.getSharedPreferences(STORAGE_FILE_NAME, Context.MODE_PRIVATE);
