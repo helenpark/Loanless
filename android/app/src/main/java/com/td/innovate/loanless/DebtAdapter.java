@@ -13,16 +13,24 @@ import java.util.List;
  */
 public class DebtAdapter extends CustomArrayAdapter<Debt> {
 
-    public DebtAdapter(Context context, ArrayList<Debt> debtList) {
-        super(context, R.layout.list_view_loans, debtList);
+    public DebtAdapter(Context _context, ArrayList<Debt> debtList) {
+        super(_context, R.layout.list_view_loans, debtList);
     }
 
     public void fillViewHolder(Object viewHolder, Debt data) {
+        Context context = getContext();
+
         ViewHolder vh = (ViewHolder)viewHolder;
         vh.name.setText(String.valueOf(data.debtType));
-        vh.total.setText("$" + String.valueOf(data.principal));
-        vh.balance.setText("$" + String.valueOf(data.creditBalance));
-        vh.balance.setText(String.valueOf("NOW"));
+        vh.total.setText(String.format(context.getResources().getString(R.string.listViewItem_Total),
+                String.valueOf(data.principal)));
+
+        vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
+                String.valueOf(data.creditBalance)));
+
+        vh.dueDate.setText(String.format(context.getResources().getString(R.string.listViewItem_DueDate),
+                String.valueOf("09/08/2015")));
+
         vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
     }
 

@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        Debt d = new Debt("CreditCard", 101, 102, 103, 104, 105, 106, 107, 108);
-        Debt d2 = new Debt("StudentLoan", 201, 202, 203, 204, 205, 206, 207, 208);
+        Debt d = new Debt("Credit Card", 101, 102, 103, 104, 105, 106, 107, 108);
+        Debt d2 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
 
         ArrayList<Debt> listDebt = new ArrayList<Debt>();
         listDebt.add(d);
