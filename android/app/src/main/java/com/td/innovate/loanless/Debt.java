@@ -13,34 +13,39 @@ import java.util.Iterator;
 public class Debt {
 
     //credit, loan, student loan
-    String debtType;
+    public String debtType;
     //loan: automated monthly payments
-    double minPayment;
+    public double minPayment;
     //loan: principal amount borrowed for loan
-    double principal;
+    public double principal;
     //credit: manual monthly payments
-    double minBalance;
+    public double minBalance;
+    //credit: yes, no, partial
+    public String balancePaid;
     //credit: goods purchased
-    double purchasesInterest;
+    public double purchasesInterest;
     //credit: cash withdrawn
-    double cashInterest;
+    public double cashInterest;
     //credit: amount spent thus far
-    double creditBalance;
+    public double creditBalance;
     //credit: amount purchases spent thus far
-    double purchasesBalance;
+    public double purchasesBalance;
     //credit: amount cash spent thus far
-    double cashBalance;
+    public double cashBalance;
     //credit: limit
-    double creditLimit;
+    public double creditLimit;
     //credit: amount left to use
-    double creditAvailable;
+    public double creditAvailable;
 
 
-    public Debt (String type, double mp, double mb, float pi, double ci, double p, double cb, double pb, double cl) {
+
+
+    public Debt (String type, double mp, double mb, String bp, double pi, double ci, double p, double cb, double pb, double cl) {
         debtType = type;
         minPayment = mp;
         principal = p;
         minBalance = mb;
+        balancePaid = bp;
         purchasesInterest = pi;
         cashInterest = ci;
         purchasesBalance = pb;
