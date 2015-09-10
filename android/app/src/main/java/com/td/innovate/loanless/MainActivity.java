@@ -1,11 +1,16 @@
 package com.td.innovate.loanless;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -22,15 +27,20 @@ public class MainActivity extends AppCompatActivity {
 
         Debt d = new Debt("Credit Card", 101, 102, 103, 104, 105, 106, 107, 108);
         Debt d2 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
+        Debt d3 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
+        Debt d4 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
+        Debt d5 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
 
         ArrayList<Debt> listDebt = new ArrayList<Debt>();
         listDebt.add(d);
         listDebt.add(d2);
+        listDebt.add(d3);
+        listDebt.add(d4);
+        listDebt.add(d5);
 
-        DebtStorage storage = new DebtStorage();
-        storage.storeDebtToSharedPrefs(getApplicationContext(), listDebt);
+        DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), listDebt);
 
-        ArrayList<Debt> listDebtJsonified = storage.getDebtFromSharedPrefs(getApplicationContext());
+        ArrayList<Debt> listDebtJsonified = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
         for(Debt dz : listDebtJsonified) {
             Log.d("[Main Activity]", "Object was pulled from memory: " + dz.debtType + " " + dz.creditLimit);
@@ -42,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
 
         ListView view = (ListView)findViewById(R.id.listView);
         view.setAdapter(adapt);
+
+
+        final Button button = (Button) findViewById(R.id.btnMakePayment);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, PayLoansActivity.class);
+                myIntent.putExtra("isSmartPay", false); //Optional parameters
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
     }
 
     @Override

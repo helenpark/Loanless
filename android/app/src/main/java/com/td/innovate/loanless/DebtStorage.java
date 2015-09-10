@@ -17,14 +17,14 @@ import java.util.List;
  * Created by ImSuperGreg on 2015-09-09.
  */
 public class DebtStorage {
-    private String STORAGE_FILE_NAME = "LoanLessSharedPreferences";
-    private String BASE_JSON_LIST_NAME = "JSONDebtData";
-    private String BASE_JSON_PARENT_NAME = "LoanLessJSON";
+    private static String STORAGE_FILE_NAME = "LoanLessSharedPreferences";
+    private static String BASE_JSON_LIST_NAME = "JSONDebtData";
+    private static String BASE_JSON_PARENT_NAME = "LoanLessJSON";
 
     public DebtStorage() {
     }
 
-    public void storeDebtToSharedPrefs(Context context, ArrayList<Debt> data) {
+    public static void storeDebtToSharedPrefs(Context context, ArrayList<Debt> data) {
         try {
             SharedPreferences sp = context.getSharedPreferences(STORAGE_FILE_NAME, Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -52,7 +52,7 @@ public class DebtStorage {
         }
     }
 
-    public ArrayList<Debt> getDebtFromSharedPrefs (Context context) {
+    public static ArrayList<Debt> getDebtFromSharedPrefs (Context context) {
         ArrayList<Debt> debtList = new ArrayList<Debt>();
 
         // TO READ FROM SHARED PREFERENCES
@@ -63,7 +63,7 @@ public class DebtStorage {
             if (rawJSONString == null)
                 Log.v("[Debt Storage]", "ERROR: NO JSON FOUND!");
 
-            // Get parent object, then pull the JSONArray stored beneath it
+            // Get parent object, then pull the JSONArray stored beneath it (list of debt objects)
             JSONObject parent = new JSONObject(rawJSONString);
 
             JSONArray jArray = parent.getJSONArray(BASE_JSON_LIST_NAME);
