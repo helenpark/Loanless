@@ -13,11 +13,11 @@ import java.util.Iterator;
 public class Debt {
 
     //debt Identifier
-    public String title="";
+    public String title = "";
     //debt status: Good, Late, Paid Min, Not Enough Funds
-    public String status="";
+    public String status = "";
     //credit, loan, student loan
-    public String debtType="";
+    public String debtType = "";
     //loan: automated monthly payments
     public double minPayment;
     //loan: amount left to pay
@@ -44,8 +44,6 @@ public class Debt {
     public double creditAvailable;
 
 
-
-
     public Debt (String t, String s, String type, double mp, double lb, double mb, double pi, double ci, double p, double li, double cb, double pb, double cl) {
         title = t;
         status = s;
@@ -69,22 +67,21 @@ public class Debt {
     public Debt (JSONObject innerJObject) {
 
         try {
-
-                this.title = innerJObject.getString("title");
-                this.status = innerJObject.getString("status");
-                this.debtType = innerJObject.getString("debtType");
-                this.minPayment = innerJObject.getDouble("minPayment");
-                this.loanBalance = innerJObject.getDouble("loanBalance");
-                this.minBalance = innerJObject.getDouble("minBalance");
-                this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
-                this.cashInterest = innerJObject.getDouble("cashInterest");
-                this.principal = innerJObject.getDouble("principal");
-                this.loanInterest = innerJObject.getDouble("loanInterest");
-                this.creditBalance = innerJObject.getDouble("creditBalance");
-                this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
-                this.cashBalance = innerJObject.getDouble("cashBalance");
-                this.creditLimit = innerJObject.getDouble("creditLimit");
-                this.creditAvailable = innerJObject.getDouble("creditAvailable");
+            this.title = innerJObject.getString("title");
+            this.status = innerJObject.getString("status");
+            this.debtType = innerJObject.getString("debtType");
+            this.minPayment = innerJObject.getDouble("minPayment");
+            this.loanBalance = innerJObject.getDouble("loanBalance");
+            this.minBalance = innerJObject.getDouble("minBalance");
+            this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
+            this.cashInterest = innerJObject.getDouble("cashInterest");
+            this.principal = innerJObject.getDouble("principal");
+            this.loanInterest = innerJObject.getDouble("loanInterest");
+            this.creditBalance = innerJObject.getDouble("creditBalance");
+            this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
+            this.cashBalance = innerJObject.getDouble("cashBalance");
+            this.creditLimit = innerJObject.getDouble("creditLimit");
+            this.creditAvailable = innerJObject.getDouble("creditAvailable");
         }
         catch (JSONException e) {
             e.printStackTrace();
