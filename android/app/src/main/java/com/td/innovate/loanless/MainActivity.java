@@ -19,13 +19,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TODO: create debt objects that make sense in real life
+        Debt d = new Debt("Credit Card", 101, 102, 103, 104, 105, 106, 107, 500);
+        Debt d2 = new Debt("Student Loan", 201, 202, 203, 204, 2000, 206, 207, 208);
+        Debt d3 = new Debt("Car Loan", 201, 202, 203, 204, 7000, 206, 207, 208);
+        Debt d4 = new Debt("Mortgage", 101, 102, 103, 104, 105, 250, 107, 500);
 
-        Debt d = new Debt("Credit Card", 101, 102, 103, 104, 105, 106, 107, 108);
-        Debt d2 = new Debt("Student Loan", 201, 202, 203, 204, 205, 206, 207, 208);
 
         ArrayList<Debt> listDebt = new ArrayList<Debt>();
         listDebt.add(d);
         listDebt.add(d2);
+        listDebt.add(d3);
+        listDebt.add(d4);
 
         DebtStorage storage = new DebtStorage();
         storage.storeDebtToSharedPrefs(getApplicationContext(), listDebt);
@@ -57,11 +62,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
