@@ -1,7 +1,5 @@
 package com.td.innovate.loanless;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
         smartPay(25, test);
 */
         //TODO: create debt objects that make sense in real life
-        Debt d1 = new Debt("cc1", "","Credit Card", 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
-        Debt d2 = new Debt("l1","","Student Loan", 0.0, 0.0, 201, 202, 203, 204, 2000, 206, 207, 208);
-        Debt d3 = new Debt("l2",  "","Car Loan", 0.0, 0.0, 201, 202, 203, 204, 7000, 206, 207, 208);
-        Debt d4 = new Debt("o1", "","Mortgage", 0.0, 0.0,  101, 102, 103, 104, 105, 250, 107, 500);
+        Debt d1 = new Debt("Everyday Credit Card", "Good","credit", 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
+        Debt d2 = new Debt("Student Loan","Good","loan", 0.0, 585, 201, 202, 203, 2000, 2, 206, 207, 208);
+        Debt d3 = new Debt("Car Loan", "Not Enough Funds","loan", 0.0, 4900, 201, 202, 203, 7000, 7000, 206, 207, 208);
+        Debt d4 = new Debt("Credit Card # 2", "Paid Min","credit", 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
+        Debt d5 = new Debt("Credit Card # 3", "Late","credit", 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
+        Debt d6 = new Debt("Mortgage","Not Enough Funds","loan", 0.0, 10000, 201, 202, 203, 200000, 205, 206, 207, 208);
+
 
         ArrayList<Debt> listDebt = new ArrayList<Debt>();
         listDebt.add(d1);
         listDebt.add(d2);
         listDebt.add(d3);
         listDebt.add(d4);
+        listDebt.add(d5);
+        listDebt.add(d6);
 
         DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), listDebt);
 
