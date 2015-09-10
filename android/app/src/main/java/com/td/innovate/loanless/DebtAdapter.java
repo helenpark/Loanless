@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -25,23 +26,34 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
         Context context = getContext();
 
         ViewHolder vh = (ViewHolder) viewHolder;
-        vh.name.setText(String.valueOf(data.debtType));
-        vh.total.setText(String.format(context.getResources().getString(R.string.listViewItem_Total),
-                String.valueOf(data.principal)));
+        vh.name.setText(String.valueOf(data.title));
+
+        DecimalFormat df = new DecimalFormat("#.00");
+
 
         vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
-                String.valueOf(data.creditBalance)));
+                String.valueOf(df.format(data.creditBalance))));
 
         vh.dueDate.setText(String.format(context.getResources().getString(R.string.listViewItem_DueDate),
                 String.valueOf("09/08/2015")));
 
-        vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
+
+        vh.status.setText(data.status.toUpperCase());
+        if(data.status.equals("Good")){
+            vh.status.setTextColor(Color.parseColor("#4CAF50"));
+        }else if(data.status.equals("Paid Min")){
+            vh.status.setTextColor(Color.parseColor("#FFB300"));
+        }else {
+            vh.status.setTextColor(Color.parseColor("#D50000"));
+        }
 
         // set the progress bar
         int progress;
-        if (data.debtType.equals("Credit Card")) {
+        if (data.debtType.equals("credit")) {
             progress = (int) ((data.creditBalance / data.creditLimit) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int) data.creditLimit));
+            vh.picture_activity.setImageResource(R.drawable.placeholder_card_icon);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to pink
@@ -49,33 +61,57 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
                 vh.background_circle.setColorFilter(Color.parseColor("#F26390"), PorterDuff.Mode.SRC_ATOP);
 
             }
-        } else if (data.debtType.equals("Student Loan")) {
-            progress = (int) ((data.creditBalance / data.principal) * 100);
-            vh.progress.setProgress(progress);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-                // change color to yellow
-                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFCA8E")));
-                vh.background_circle.setColorFilter(Color.parseColor("#FFCA8E"), PorterDuff.Mode.SRC_ATOP);
-            }
-        } else if (data.debtType.equals("Car Loan")) {
-            progress = (int) ((data.creditBalance / data.creditLimit) * 100);
-            vh.progress.setProgress(progress);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-                // change color to blue
-                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#7DDFE7")));
-                vh.background_circle.setColorFilter(Color.parseColor("#7DDFE7"), PorterDuff.Mode.SRC_ATOP);
+        } else if(data.debtType.equals("loan")){
+            if (data.title.equals("Student Loan")) {
+                progress = (int) ((data.loanBalance / data.principal) * 100);
+                vh.progress.setProgress(progress);
+                vh.total.setText("$" + Integer.toString((int) data.principal));
+                vh.picture_activity.setImageResource(R.drawable.placeholder_student_icon);
+                vh.dueDate.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    // change color to yellow
+                    vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFCA8E")));
+                    vh.background_circle.setColorFilter(Color.parseColor("#FFCA8E"), PorterDuff.Mode.SRC_ATOP);
+                }
+            } else if (data.title.equals("Car Loan")) {
+                progress = (int) ((data.loanBalance / data.principal) * 100);
+                vh.progress.setProgress(progress);
+                vh.total.setText("$" + Integer.toString((int) data.principal));
+                vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
+                vh.dueDate.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    // change color to blue
+                    vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#7DDFE7")));
+                    vh.background_circle.setColorFilter(Color.parseColor("#7DDFE7"), PorterDuff.Mode.SRC_ATOP);
+                }
+            }else{
+                //for any other kind of loan
+                progress = (int) ((data.loanBalance / data.principal) * 100);
+                vh.progress.setProgress(progress);
+                vh.total.setText("$" + Integer.toString((int) data.principal));
+                vh.picture_activity.setImageResource(R.drawable.placeholder_home_icon);
+                vh.dueDate.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    // change color to green
+                    vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#A5D6A7")));
+                    vh.background_circle.setColorFilter(Color.parseColor("#A5D6A7"), PorterDuff.Mode.SRC_ATOP);
+                }
             }
         } else {
             //for any other kind of loan
             progress = (int) ((data.creditBalance / data.creditLimit) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int) data.principal));
+            vh.picture_activity.setImageResource(R.drawable.placeholder_home_icon);
+            vh.dueDate.setVisibility(View.GONE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to green
-                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#A5D6A7")));
-                vh.background_circle.setColorFilter(Color.parseColor("#A5D6A7"), PorterDuff.Mode.SRC_ATOP);
+                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#B39DDB")));
+                vh.background_circle.setColorFilter(Color.parseColor("#B39DDB"), PorterDuff.Mode.SRC_ATOP);
             }
         }
     }
@@ -108,18 +144,3 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
 
     }
 }
-
-/*
-this allows you to add the different fields that your row element xml file has. so ours has 5 textviews and an imageview
-
-        in the `getViewHolder`, you need to create an instance of the viewholder as follows
-        `ViewHolder viewHolder = new ViewHolder();`
-        this is where you will look for the different elements in the row view it would be something like this
-        ` viewHolder.name = (TextView) rowView.findViewById(R.id.item_name);`
-
-        and then, in the `fillViewHolder`, you take the object and make it a viewholder
-
-        like this `ViewHolder vh = (ViewHolder)viewHolder;`
-
-        and then you set the textviews and imageviews from the passed in data object
-*/
