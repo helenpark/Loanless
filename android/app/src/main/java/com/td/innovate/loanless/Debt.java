@@ -13,11 +13,11 @@ import java.util.Iterator;
 public class Debt {
 
     //debt Identifier
-    public String title="";
+    public String title = "";
     //debt status: Good, Late, Paid Min, Not Enough Funds
-    public String status="";
+    public String status = "";
     //credit, loan, student loan
-    public String debtType="";
+    public String debtType = "";
     //smartPay Amount
     public double smartTab;
     //loan: automated monthly payments
@@ -96,7 +96,6 @@ public class Debt {
     public Debt (JSONObject innerJObject) {
 
         try {
-
                 this.title = innerJObject.getString("title");
                 this.status = innerJObject.getString("status");
                 this.debtType = innerJObject.getString("debtType");
