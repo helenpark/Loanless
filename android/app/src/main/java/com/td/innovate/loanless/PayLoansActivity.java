@@ -16,15 +16,26 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PayLoansActivity extends AppCompatActivity {
+    boolean isSmartPay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_loans);
+
+        isSmartPay = getIntent().getExtras().getBoolean("isSmartPay");
+
+        if(!isSmartPay) {
+            LinearLayout smartLayout = (LinearLayout) findViewById(R.id.linearLayoutSmartPay);
+            smartLayout.setVisibility(View.INVISIBLE);
+            Log.d("[PayLoansActivity]", "Hiding smart payment text selection.");
+        }
 
         LinearLayout main = (LinearLayout) findViewById(R.id.linearLayoutTexting);
 
@@ -58,15 +69,14 @@ public class PayLoansActivity extends AppCompatActivity {
             text2.setInputType(InputType.TYPE_CLASS_NUMBER);
             text2.setTextColor(Color.BLACK);
             text2.setTextSize(20);
-            //text2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             text2.setGravity(Gravity.CENTER);
+
             if(index == 0) text2.setId(R.id.edit_text_debt_1);
             if(index == 1) text2.setId(R.id.edit_text_debt_2);
             if(index == 2) text2.setId(R.id.edit_text_debt_3);
             if(index == 3) text2.setId(R.id.edit_text_debt_4);
             if(index == 4) text2.setId(R.id.edit_text_debt_5);
             if(index == 5) text2.setId(R.id.edit_text_debt_6);
-
 
             layout.addView(text);
             layout.addView(text2);
@@ -75,17 +85,15 @@ public class PayLoansActivity extends AppCompatActivity {
             index++;
         }
 
-
         final Button button = (Button) findViewById(R.id.btnPay);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+                ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
                 Log.d("[PayLoansActivity]", "PayingLoan: " + debtList.get(0).debtType);
 
                 for(int i = 0; i < debtList.size(); i++) {
                     try {
-
                         EditText text1;
                         if(i == 0) text1 = (EditText) findViewById(R.id.edit_text_debt_1);
                         else if(i == 1) text1 = (EditText) findViewById(R.id.edit_text_debt_2);
@@ -101,11 +109,19 @@ public class PayLoansActivity extends AppCompatActivity {
                         Double val = Double.parseDouble(text1.getText().toString());
 
                         Log.d("[PayLoansActivity]", "PayingLoan: " + debtList.get(i).debtType + " + " + val);
+
+                        //TODO: update debt object with balance changes
                     } catch (Exception e) {
                         e.printStackTrace();
                         continue;
                     }
                 }
+                //TODO: apply changes to persistent data
+                DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), debtList);
+
+                Toast.makeText(getApplicationContext(), "Payments made successfully.",
+                        Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }
