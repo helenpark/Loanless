@@ -65,17 +65,21 @@ public class Debt {
         creditAvailable = cl-creditBalance;
     }
 
-    //adds the specified funds to credit debt
-    //debt must be a credit
-    public void addTab() {
+    // Applies SmartPay or custom payment to Debt Object
+    //TODO: make sure all input is default to zero if using smartPay
+
+    public void addTab(double funds) {
+        if (funds==0.0) {
+            funds = smartTab;
+        }
         if (debtType.equals("credit")) {
-            double excess = smartTab - minBalance;
-            creditBalance = creditBalance - smartTab;
-            creditAvailable = creditAvailable + smartTab;
+            double excess = funds - minBalance;
+            creditBalance = creditBalance - funds;
+            creditAvailable = creditAvailable + funds;
             if (excess <= 0) {
-                minBalance = minBalance - smartTab;
-                purchasesBalance = purchasesBalance - (smartTab * (purchasesBalance / creditBalance));
-                cashBalance = cashBalance - (smartTab * (cashBalance / creditBalance));
+                minBalance = minBalance - funds;
+                purchasesBalance = purchasesBalance - (funds * (purchasesBalance / creditBalance));
+                cashBalance = cashBalance - (funds * (cashBalance / creditBalance));
                 if (excess == 0) {
                     status = "Paid Min";
                 }
@@ -90,7 +94,11 @@ public class Debt {
                     cashBalance = cashBalance - excess;
                 }
             }
+        } else {
+            loanBalance = loanBalance-funds;
         }
+        //RESET SmartTab
+        smartTab = 0.0;
     }
 
     public Debt (JSONObject innerJObject) {

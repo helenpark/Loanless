@@ -4,8 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="listViewItem_Balance">Balance: $%s</string>
+    <string name="listViewItem_Progress">Progress: $%s</string>
     <string name="listViewItem_Total">Total: $%s</string>
     <string name="listViewItem_DueDate">Due Date: %s</string>
+    <string name="listViewItem_NextPayment">Next Payment: %s</string>
     <string name="layout_payment_dialog_title">Payments</string>
     <string name="title_activity_pay_loans">PayLoansActivity</string>
 

@@ -103,6 +103,7 @@ public class PayLoansActivity extends AppCompatActivity {
                         Double val = Double.parseDouble(text1.getText().toString());
 
                         Log.d("[PayLoansActivity]", "PayingLoan: " + debtList.get(i).debtType + " + " + val);
+                        debtList.get(i).addTab(val);
                     } catch (Exception e) {
                         e.printStackTrace();
                         continue;
