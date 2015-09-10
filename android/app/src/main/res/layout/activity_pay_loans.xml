@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/linearLayoutTexting"
         android:layout_alignTop="@id/linearLayoutSmartPay">
-    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -50,18 +49,21 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentStart="true"
         android:layout_weight="0.62"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:clickable="true"/>
 
     <Button
         android:layout_width="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
-        android:layout_height="80dp"
+        android:layout_height="140dp"
         android:layout_marginRight="-4.5dp"
         android:layout_marginLeft="-4.5dp"
         android:layout_marginBottom="-5.5dp"
         android:layout_gravity="bottom"
         android:text="PAY NOW!"
-        android:id="@+id/btnPay" />
+        android:id="@+id/btnPay"
+        />
+    </LinearLayout>
 
 </RelativeLayout>

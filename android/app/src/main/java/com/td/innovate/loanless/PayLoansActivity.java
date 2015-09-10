@@ -1,6 +1,8 @@
 package com.td.innovate.loanless;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,6 +28,12 @@ import java.util.List;
 
 public class PayLoansActivity extends AppCompatActivity {
     boolean isSmartPay = false;
+    double payAmount=0;
+    int posn;
+
+
+    ListView listView;
+    PayLoanAdapter adapt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +49,78 @@ public class PayLoansActivity extends AppCompatActivity {
         }
 
 
-        ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
-
+        listView = (ListView) findViewById(R.id.listViewPayLoans);
         ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
         Context context = getApplicationContext();
 
-        PayLoanAdapter adapt = new PayLoanAdapter(context, debtList);
+        adapt = new PayLoanAdapter(this, debtList);
+        listView.setAdapter(adapt);
 
-        ListView view = (ListView)findViewById(R.id.listViewPayLoans);
-        view.setAdapter(adapt);
+        Log.d("[CHECK1]", "");
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                posn = position;
+                final Context cont = getApplicationContext();
+                Log.i("[ONCLICK]", "HELLO.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (!isFinishing()) {
+                            final EditText input = new EditText(cont);
+                            input.setTextColor(Color.BLACK);
+
+                            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                            input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                            new AlertDialog.Builder(PayLoansActivity.this)
+                                    .setTitle("Payment Amount")
+                                    .setMessage("Amount to pay:")
+                                    .setView(input)
+                                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                            //ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
+                                        }
+                                    })
+                                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            payAmount = Double.parseDouble(input.getText().toString());
+                                            View x = listView.getChildAt(posn);
+                                            TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
+                                            Log.d("HELLO","");
+                                            et.setText(String.valueOf(payAmount));
+                                            adapt.notifyDataSetChanged();
+                                        }
+                                    }).create().show();
+
+                        }
+                    }
+                });
+
+                //TODO: set the payment portion to payAmount variable
+/*
+                //ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
+                View x = listView.getChildAt(position);
+                TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
+                Log.d("HELLO","");
+                et.setText(String.valueOf(payAmount));
+                adapt.notifyDataSetChanged();
+*/
+            }
+        });
+        Log.d("[CHECK2]", "");
+
+
+
+        //ListView view = (ListView)findViewById(R.id.listViewPayLoans);
 
         int index = 0;
         for(Debt d : debtList) {
@@ -71,6 +142,7 @@ public class PayLoansActivity extends AppCompatActivity {
                         EditText et = (EditText) x.findViewById(R.id.textSmartPayValue);
 
                         Log.d("[PayLoansActivity]", "WE GOT: " + et.getText());
+                        debtList.get(i).addTab(Double.parseDouble(et.getText().toString()));
 
                     } catch (Exception e) {
                         e.printStackTrace();
