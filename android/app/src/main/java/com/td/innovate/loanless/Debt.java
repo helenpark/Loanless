@@ -12,21 +12,27 @@ import java.util.Iterator;
  */
 public class Debt {
 
+    //debt Identifier
+    public String title;
+    //debt status: Good, Late, Paid Min, Not Enough Funds
+    public String status;
     //credit, loan, student loan
     public String debtType;
     //loan: automated monthly payments
     public double minPayment;
+    //loan: amount left to pay
+    public double loanBalance;
     //loan: principal amount borrowed for loan
     public double principal;
+    //loan: interest on loan
+    public double loanInterest;
     //credit: manual monthly payments
     public double minBalance;
-    //credit: yes, no, partial
-    public String balancePaid;
     //credit: goods purchased
     public double purchasesInterest;
     //credit: cash withdrawn
     public double cashInterest;
-    //credit: amount spent thus far
+    //credit: amount spent thus far, not paid back
     public double creditBalance;
     //credit: amount purchases spent thus far
     public double purchasesBalance;
@@ -40,20 +46,25 @@ public class Debt {
 
 
 
-    public Debt (String type, double mp, double mb, String bp, double pi, double ci, double p, double cb, double pb, double cl) {
+    public Debt (String t, String s, String type, double mp, double lb, double mb, double pi, double ci, double p, double li, double cb, double pb, double cl) {
+        title = t;
+        status = s;
         debtType = type;
         minPayment = mp;
+        loanBalance = lb;
         principal = p;
+        loanInterest = li;
         minBalance = mb;
-        balancePaid = bp;
         purchasesInterest = pi;
         cashInterest = ci;
         purchasesBalance = pb;
         creditBalance = cb+pb;
         cashBalance = cb;
         creditLimit = cl;
-        creditAvailable = cl-(cb+pb);
+        creditAvailable = cl-creditBalance;
     }
+
+
 
     public Debt (JSONObject jData) {
 
@@ -65,12 +76,16 @@ public class Debt {
                 String key = keys.next();
 
                 JSONObject innerJObject = jData.getJSONObject(key);
+                this.title = innerJObject.getString("title");
+                this.status = innerJObject.getString("status");
                 this.debtType = innerJObject.getString("debtType");
                 this.minPayment = innerJObject.getDouble("minPayment");
+                this.loanBalance = innerJObject.getDouble("loanBalance");
                 this.minBalance = innerJObject.getDouble("minBalance");
                 this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
                 this.cashInterest = innerJObject.getDouble("cashInterest");
                 this.principal = innerJObject.getDouble("principal");
+                this.loanInterest = innerJObject.getDouble("loanInterest");
                 this.creditBalance = innerJObject.getDouble("creditBalance");
                 this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
                 this.cashBalance = innerJObject.getDouble("cashBalance");
@@ -87,12 +102,16 @@ public class Debt {
     public String getJSONObject() {
         try {
             JSONObject json = new JSONObject();
+            json.put("title", title);
+            json.put("status", status);
             json.put("debtType", debtType);
             json.put("minPayment", minPayment);
+            json.put("loanBalance", loanBalance);
             json.put("minBalance", minBalance);
             json.put("purchasesInterest", purchasesInterest);
             json.put("cashInterest", cashInterest);
             json.put("principal", principal);
+            json.put("loanInterest", loanInterest);
             json.put("creditBalance", creditBalance);
             json.put("purchasesBalance", purchasesBalance);
             json.put("cashBalance", cashBalance);
