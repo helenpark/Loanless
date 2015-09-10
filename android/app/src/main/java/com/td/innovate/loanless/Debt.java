@@ -13,11 +13,11 @@ import java.util.Iterator;
 public class Debt {
 
     //debt Identifier
-    public String title;
+    public String title="";
     //debt status: Good, Late, Paid Min, Not Enough Funds
-    public String status;
+    public String status="";
     //credit, loan, student loan
-    public String debtType;
+    public String debtType="";
     //loan: automated monthly payments
     public double minPayment;
     //loan: amount left to pay
@@ -66,16 +66,10 @@ public class Debt {
 
 
 
-    public Debt (JSONObject jData) {
+    public Debt (JSONObject innerJObject) {
 
-        try
-        {
-            Iterator<String> keys = jData.keys();
-            while( keys.hasNext() )
-            {
-                String key = keys.next();
+        try {
 
-                JSONObject innerJObject = jData.getJSONObject(key);
                 this.title = innerJObject.getString("title");
                 this.status = innerJObject.getString("status");
                 this.debtType = innerJObject.getString("debtType");
@@ -89,12 +83,10 @@ public class Debt {
                 this.creditBalance = innerJObject.getDouble("creditBalance");
                 this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
                 this.cashBalance = innerJObject.getDouble("cashBalance");
-                this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
                 this.creditLimit = innerJObject.getDouble("creditLimit");
                 this.creditAvailable = innerJObject.getDouble("creditAvailable");
-            }
         }
-        catch (JSONException e){
+        catch (JSONException e) {
             e.printStackTrace();
         }
     }
