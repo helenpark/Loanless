@@ -12,34 +12,48 @@ import java.util.Iterator;
  */
 public class Debt {
 
+    //debt Identifier
+    public String title="";
+    //debt status: Good, Late, Paid Min, Not Enough Funds
+    public String status="";
     //credit, loan, student loan
-    String debtType;
+    public String debtType="";
     //loan: automated monthly payments
-    double minPayment;
+    public double minPayment;
+    //loan: amount left to pay
+    public double loanBalance;
     //loan: principal amount borrowed for loan
-    double principal;
+    public double principal;
+    //loan: interest on loan
+    public double loanInterest;
     //credit: manual monthly payments
-    double minBalance;
+    public double minBalance;
     //credit: goods purchased
-    double purchasesInterest;
+    public double purchasesInterest;
     //credit: cash withdrawn
-    double cashInterest;
-    //credit: amount spent thus far
-    double creditBalance;
+    public double cashInterest;
+    //credit: amount spent thus far, not paid back
+    public double creditBalance;
     //credit: amount purchases spent thus far
-    double purchasesBalance;
+    public double purchasesBalance;
     //credit: amount cash spent thus far
-    double cashBalance;
+    public double cashBalance;
     //credit: limit
-    double creditLimit;
+    public double creditLimit;
     //credit: amount left to use
-    double creditAvailable;
+    public double creditAvailable;
 
 
-    public Debt (String type, double mp, double mb, double pi, double ci, double p, double cb, double pb, double cl) {
+
+
+    public Debt (String t, String s, String type, double mp, double lb, double mb, double pi, double ci, double p, double li, double cb, double pb, double cl) {
+        title = t;
+        status = s;
         debtType = type;
         minPayment = mp;
+        loanBalance = lb;
         principal = p;
+        loanInterest = li;
         minBalance = mb;
         purchasesInterest = pi;
         cashInterest = ci;
@@ -47,27 +61,32 @@ public class Debt {
         creditBalance = cb+pb;
         cashBalance = cb;
         creditLimit = cl;
-        creditAvailable = cl-(cb+pb);
+        creditAvailable = cl-creditBalance;
     }
+
+
 
     public Debt (JSONObject innerJObject) {
 
-        try
-        {
-            this.debtType = innerJObject.getString("debtType");
-            this.minPayment = innerJObject.getDouble("minPayment");
-            this.minBalance = innerJObject.getDouble("minBalance");
-            this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
-            this.cashInterest = innerJObject.getDouble("cashInterest");
-            this.principal = innerJObject.getDouble("principal");
-            this.creditBalance = innerJObject.getDouble("creditBalance");
-            this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
-            this.cashBalance = innerJObject.getDouble("cashBalance");
-            this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
-            this.creditLimit = innerJObject.getDouble("creditLimit");
-            this.creditAvailable = innerJObject.getDouble("creditAvailable");
+        try {
+
+                this.title = innerJObject.getString("title");
+                this.status = innerJObject.getString("status");
+                this.debtType = innerJObject.getString("debtType");
+                this.minPayment = innerJObject.getDouble("minPayment");
+                this.loanBalance = innerJObject.getDouble("loanBalance");
+                this.minBalance = innerJObject.getDouble("minBalance");
+                this.purchasesInterest = innerJObject.getDouble("purchasesInterest");
+                this.cashInterest = innerJObject.getDouble("cashInterest");
+                this.principal = innerJObject.getDouble("principal");
+                this.loanInterest = innerJObject.getDouble("loanInterest");
+                this.creditBalance = innerJObject.getDouble("creditBalance");
+                this.purchasesBalance = innerJObject.getDouble("purchasesBalance");
+                this.cashBalance = innerJObject.getDouble("cashBalance");
+                this.creditLimit = innerJObject.getDouble("creditLimit");
+                this.creditAvailable = innerJObject.getDouble("creditAvailable");
         }
-        catch (JSONException e){
+        catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -75,12 +94,16 @@ public class Debt {
     public String getJSONObject() {
         try {
             JSONObject json = new JSONObject();
+            json.put("title", title);
+            json.put("status", status);
             json.put("debtType", debtType);
             json.put("minPayment", minPayment);
+            json.put("loanBalance", loanBalance);
             json.put("minBalance", minBalance);
             json.put("purchasesInterest", purchasesInterest);
             json.put("cashInterest", cashInterest);
             json.put("principal", principal);
+            json.put("loanInterest", loanInterest);
             json.put("creditBalance", creditBalance);
             json.put("purchasesBalance", purchasesBalance);
             json.put("cashBalance", cashBalance);
