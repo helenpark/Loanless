@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -26,22 +27,27 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
 
         ViewHolder vh = (ViewHolder) viewHolder;
         vh.name.setText(String.valueOf(data.debtType));
-        vh.total.setText(String.format(context.getResources().getString(R.string.listViewItem_Total),
-                String.valueOf(data.principal)));
+
+        DecimalFormat df = new DecimalFormat("#.00");
+
 
         vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
-                String.valueOf(data.creditBalance)));
+                String.valueOf(df.format(data.creditBalance))));
 
         vh.dueDate.setText(String.format(context.getResources().getString(R.string.listViewItem_DueDate),
                 String.valueOf("09/08/2015")));
 
         vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
 
+        //TODO: update status based on the actual standing of the loan
+        //TODO: for all loans, need to use the amount of loan that has already been paid off, not creditBalance
+
         // set the progress bar
         int progress;
         if (data.debtType.equals("Credit Card")) {
             progress = (int) ((data.creditBalance / data.creditLimit) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int)data.creditLimit));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to pink
@@ -52,6 +58,8 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
         } else if (data.debtType.equals("Student Loan")) {
             progress = (int) ((data.creditBalance / data.principal) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int)data.principal));
+            vh.dueDate.setVisibility(View.GONE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to yellow
@@ -61,6 +69,8 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
         } else if (data.debtType.equals("Car Loan")) {
             progress = (int) ((data.creditBalance / data.creditLimit) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int) data.principal));
+            vh.dueDate.setVisibility(View.GONE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to blue
@@ -71,6 +81,8 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
             //for any other kind of loan
             progress = (int) ((data.creditBalance / data.creditLimit) * 100);
             vh.progress.setProgress(progress);
+            vh.total.setText("$" + Integer.toString((int) data.principal));
+            vh.dueDate.setVisibility(View.GONE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                 // change color to green
@@ -108,18 +120,3 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
 
     }
 }
-
-/*
-this allows you to add the different fields that your row element xml file has. so ours has 5 textviews and an imageview
-
-        in the `getViewHolder`, you need to create an instance of the viewholder as follows
-        `ViewHolder viewHolder = new ViewHolder();`
-        this is where you will look for the different elements in the row view it would be something like this
-        ` viewHolder.name = (TextView) rowView.findViewById(R.id.item_name);`
-
-        and then, in the `fillViewHolder`, you take the object and make it a viewholder
-
-        like this `ViewHolder vh = (ViewHolder)viewHolder;`
-
-        and then you set the textviews and imageviews from the passed in data object
-*/
