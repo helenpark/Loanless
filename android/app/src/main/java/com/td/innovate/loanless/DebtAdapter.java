@@ -1,12 +1,16 @@
 package com.td.innovate.loanless;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ImSuperGreg on 2015-09-09.
@@ -20,7 +24,7 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
     public void fillViewHolder(Object viewHolder, Debt data) {
         Context context = getContext();
 
-        ViewHolder vh = (ViewHolder)viewHolder;
+        ViewHolder vh = (ViewHolder) viewHolder;
         vh.name.setText(String.valueOf(data.debtType));
         vh.total.setText(String.format(context.getResources().getString(R.string.listViewItem_Total),
                 String.valueOf(data.principal)));
@@ -32,6 +36,48 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
                 String.valueOf("09/08/2015")));
 
         vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
+
+        // set the progress bar
+        int progress;
+        if (data.debtType.equals("Credit Card")) {
+            progress = (int) ((data.creditBalance / data.creditLimit) * 100);
+            vh.progress.setProgress(progress);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                // change color to pink
+                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#F26390")));
+                vh.background_circle.setColorFilter(Color.parseColor("#F26390"), PorterDuff.Mode.SRC_ATOP);
+
+            }
+        } else if (data.debtType.equals("Student Loan")) {
+            progress = (int) ((data.creditBalance / data.principal) * 100);
+            vh.progress.setProgress(progress);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                // change color to yellow
+                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFCA8E")));
+                vh.background_circle.setColorFilter(Color.parseColor("#FFCA8E"), PorterDuff.Mode.SRC_ATOP);
+            }
+        } else if (data.debtType.equals("Car Loan")) {
+            progress = (int) ((data.creditBalance / data.creditLimit) * 100);
+            vh.progress.setProgress(progress);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                // change color to blue
+                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#7DDFE7")));
+                vh.background_circle.setColorFilter(Color.parseColor("#7DDFE7"), PorterDuff.Mode.SRC_ATOP);
+            }
+        } else {
+            //for any other kind of loan
+            progress = (int) ((data.creditBalance / data.creditLimit) * 100);
+            vh.progress.setProgress(progress);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                // change color to green
+                vh.progress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#A5D6A7")));
+                vh.background_circle.setColorFilter(Color.parseColor("#A5D6A7"), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
     }
 
     public Object getViewHolder(View rowView) {
@@ -42,7 +88,10 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
         viewHolder.total = (TextView)rowView.findViewById(R.id.item_total);
         viewHolder.dueDate = (TextView)rowView.findViewById(R.id.item_due_date);
         viewHolder.balance = (TextView)rowView.findViewById(R.id.item_balance);
+        viewHolder.status = (TextView)rowView.findViewById(R.id.status_indicator);
         viewHolder.picture_activity = (ImageView)rowView.findViewById(R.id.picture_activity);
+        viewHolder.progress = (ProgressBar)rowView.findViewById(R.id.progressBar);
+        viewHolder.background_circle = (ImageView)rowView.findViewById(R.id.background_circle);
 
         return viewHolder;
     }
@@ -52,7 +101,10 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
         TextView total;
         TextView balance;
         TextView dueDate;
+        TextView status;
         ImageView picture_activity;
+        ImageView background_circle;
+        ProgressBar progress;
 
     }
 }
