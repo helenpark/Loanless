@@ -18,6 +18,8 @@ public class Debt {
     public String status="";
     //credit, loan, student loan
     public String debtType="";
+    //smartPay Amount
+    public double smartTab;
     //loan: automated monthly payments
     public double minPayment;
     //loan: amount left to pay
@@ -44,12 +46,11 @@ public class Debt {
     public double creditAvailable;
 
 
-
-
-    public Debt (String t, String s, String type, double mp, double lb, double mb, double pi, double ci, double p, double li, double cb, double pb, double cl) {
+    public Debt (String t, String s, String type, double st, double mp, double lb, double mb, double pi, double ci, double p, double li, double cb, double pb, double cl) {
         title = t;
         status = s;
         debtType = type;
+        smartTab = st;
         minPayment = mp;
         loanBalance = lb;
         principal = p;
@@ -64,7 +65,33 @@ public class Debt {
         creditAvailable = cl-creditBalance;
     }
 
-
+    //adds the specified funds to credit debt
+    //debt must be a credit
+    public void addTab() {
+        if (debtType.equals("credit")) {
+            double excess = smartTab - minBalance;
+            creditBalance = creditBalance - smartTab;
+            creditAvailable = creditAvailable + smartTab;
+            if (excess <= 0) {
+                minBalance = minBalance - smartTab;
+                purchasesBalance = purchasesBalance - (smartTab * (purchasesBalance / creditBalance));
+                cashBalance = cashBalance - (smartTab * (cashBalance / creditBalance));
+                if (excess == 0) {
+                    status = "Paid Min";
+                }
+            } else if (excess > 0) {
+                minBalance = 0.0;
+                status = "Paid Min";
+                double temp = cashBalance - excess;
+                if (temp < 0) {
+                    purchasesBalance = purchasesBalance - (excess - cashBalance);
+                    cashBalance = 0.0;
+                } else {
+                    cashBalance = cashBalance - excess;
+                }
+            }
+        }
+    }
 
     public Debt (JSONObject innerJObject) {
 
@@ -73,6 +100,7 @@ public class Debt {
                 this.title = innerJObject.getString("title");
                 this.status = innerJObject.getString("status");
                 this.debtType = innerJObject.getString("debtType");
+                this.smartTab = innerJObject.getDouble("smartTab");
                 this.minPayment = innerJObject.getDouble("minPayment");
                 this.loanBalance = innerJObject.getDouble("loanBalance");
                 this.minBalance = innerJObject.getDouble("minBalance");
@@ -97,6 +125,7 @@ public class Debt {
             json.put("title", title);
             json.put("status", status);
             json.put("debtType", debtType);
+            json.put("smartTab", smartTab);
             json.put("minPayment", minPayment);
             json.put("loanBalance", loanBalance);
             json.put("minBalance", minBalance);
