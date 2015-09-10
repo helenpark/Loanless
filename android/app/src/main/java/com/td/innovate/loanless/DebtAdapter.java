@@ -62,12 +62,15 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
 
             }
         } else if(data.debtType.equals("loan")){
+            vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Progress),
+                    String.valueOf(df.format((data.principal-data.loanBalance)))));
+            vh.dueDate.setText(String.format(context.getResources().getString(R.string.listViewItem_NextPayment),
+                    String.valueOf("09/25/2015")));
             if (data.title.equals("Student Loan")) {
                 progress = (int) ((data.loanBalance / data.principal) * 100);
                 vh.progress.setProgress(progress);
                 vh.total.setText("$" + Integer.toString((int) data.principal));
                 vh.picture_activity.setImageResource(R.drawable.placeholder_student_icon);
-                vh.dueDate.setVisibility(View.GONE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                     // change color to yellow
@@ -79,7 +82,6 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
                 vh.progress.setProgress(progress);
                 vh.total.setText("$" + Integer.toString((int) data.principal));
                 vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
-                vh.dueDate.setVisibility(View.GONE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     vh.progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
                     // change color to blue

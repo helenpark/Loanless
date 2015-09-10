@@ -23,12 +23,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //TODO: create debt objects that make sense in real life
-        Debt d1 = new Debt("Everyday Credit Card", "Good","credit", 0.0, 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
-        Debt d2 = new Debt("Student Loan","Good","loan",0.0, 0.0, 585, 201, 202, 203, 2000, 2, 206, 207, 208);
-        Debt d3 = new Debt("Car Loan", "Not Enough Funds","loan",0.0, 0.0, 4900, 201, 202, 203, 7000, 7000, 206, 207, 208);
-        Debt d4 = new Debt("Credit Card # 2", "Paid Min","credit",0.0, 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
-        Debt d5 = new Debt("Credit Card # 3", "Late","credit",0.0, 0.0, 0.0, 101, 102, 103, 104, 105, 106, 107, 500);
-        Debt d6 = new Debt("Mortgage","Not Enough Funds","loan",0.0, 0.0, 10000, 201, 202, 203, 200000, 205, 206, 207, 208);
+        Debt d1 = new Debt("Everyday Credit", "Good","credit", 0.0, 0.0, 0.0, 101, 0.19, 0.22, 0, 0, 488, 450, 1500);
+        Debt d2 = new Debt("Student Loan","Good","loan",0.0, 220, 6200, 0.0, 0.0, 0.0, 23000, 0.08, 0.0, 0.0, 0.0);
+        Debt d3 = new Debt("Car Loan", "Not Enough Funds","loan",0.0, 380, 5500, 0.0, 0.0, 0.0, 7000, 0.12, 0.0, 0.0, 0.0);
+        Debt d4 = new Debt("VISA Credit", "Paid Min","credit",0.0, 0.0, 0.0, 23, 0.17, 0.30, 0, 0, 106, 307, 1000);
+        Debt d5 = new Debt("Extra Credit", "Late","credit",0.0, 0.0, 0.0, 10, 0.1, 0.13, 0, 0, 0, 35, 300);
 
 
         ArrayList<Debt> listDebt = new ArrayList<Debt>();
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         listDebt.add(d3);
         listDebt.add(d4);
         listDebt.add(d5);
-        listDebt.add(d6);
 
         DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), listDebt);
 

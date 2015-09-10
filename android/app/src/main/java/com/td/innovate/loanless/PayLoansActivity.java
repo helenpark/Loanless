@@ -72,7 +72,6 @@ public class PayLoansActivity extends AppCompatActivity {
 
                         Log.d("[PayLoansActivity]", "WE GOT: " + et.getText());
 
-                        //TODO: update debt object with balance changes
                     } catch (Exception e) {
                         e.printStackTrace();
                         continue;
