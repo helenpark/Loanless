@@ -21,19 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/*
-        Debt d1 = new Debt("cc1","Good","credit",0.0,0.0,0.0,0.0,10.0,0.1,0.2,50.0,50.0,1000.0);
-        Debt d2 = new Debt("cc2","Good","credit",0.0,0.0,0.0,0.0,11.0,0.1,0.2,60.0,60.0,1000.0);
-        Debt d3 = new Debt("cc3","Good","credit",0.0,0.0,0.0,0.0,12.0,0.1,0.2,70.0,70.0,1000.0);
-        Debt d4 = new Debt("cc4","Good","credit",0.0,0.0,0.0,0.0,13.0,0.1,0.2,80.0,80.0,1000.0);
 
-        ArrayList<Debt> test = new ArrayList<Debt>();
-        test.add(d1);
-        test.add(d2);
-        test.add(d3);
-        test.add(d4);
-        smartPay(25, test);
-*/
         //TODO: create debt objects that make sense in real life
         Debt d1 = new Debt("Everyday Credit", "Good","credit", 0.0, 0.0, 0.0, 101, 0.19, 0.22, 0, 0, 488, 450, 1500);
         Debt d2 = new Debt("Student Loan","Good","loan",0.0, 220, 6200, 0.0, 0.0, 0.0, 23000, 0.08, 0.0, 0.0, 0.0);
@@ -53,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Debt> listDebtJsonified = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
-        for(Debt dz : listDebtJsonified) {
+        /*for(Debt dz : listDebtJsonified) {
             Log.d("[Main Activity]", "Object was pulled from memory: " + dz.debtType + " " + dz.creditLimit);
-        }
+        }*/
 
         Context context = getApplicationContext();
 
@@ -69,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, PayLoansActivity.class);
-                myIntent.putExtra("isSmartPay", false); //Optional parameters
+                myIntent.putExtra("isSmartPay", false);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
+        final Button button2 = (Button) findViewById(R.id.btnSmartPay);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, PayLoansActivity.class);
+                myIntent.putExtra("isSmartPay", true);
                 MainActivity.this.startActivity(myIntent);
             }
         });
@@ -93,5 +89,20 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        Context context = getApplicationContext();
+        ArrayList<Debt> listDebt = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+
+        Log.d("[MainActivity]", "Resuming MainActivity: Updating data.");
+
+        DebtAdapter adapt = new DebtAdapter(context, listDebt);
+
+        ListView view = (ListView)findViewById(R.id.listView);
+        view.setAdapter(adapt);
     }
 }
