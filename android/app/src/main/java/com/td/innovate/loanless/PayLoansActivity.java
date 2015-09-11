@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,16 +54,12 @@ public class PayLoansActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listViewPayLoans);
         ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
 
         adapt = new PayLoanAdapter(this, debtList);
         listView.setAdapter(adapt);
 
-        Log.d("[CHECK1]", "");
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 posn = position;
@@ -73,6 +70,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
                         if (!isFinishing()) {
                             final EditText input = new EditText(cont);
+                            input.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
                             input.setTextColor(Color.BLACK);
 
                             input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -94,6 +92,7 @@ public class PayLoansActivity extends AppCompatActivity {
                                             View x = listView.getChildAt(posn);
                                             TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
                                             et.setText(String.valueOf(payAmount));
+                                            adapt.getItem(posn).smartTab = payAmount;
                                             adapt.notifyDataSetChanged();
                                         }
                                     }).create().show();
@@ -104,16 +103,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
             }
         });
-        Log.d("[CHECK2]", "");
 
-
-
-
-        int index = 0;
-        for(Debt d : debtList) {
-            Log.d("[PayLoansActivity]", "Text Box: " + index + ".");
-            index++;
-        }
 
         final Button button = (Button) findViewById(R.id.btnPay);
         button.setOnClickListener(new View.OnClickListener() {
@@ -126,10 +116,11 @@ public class PayLoansActivity extends AppCompatActivity {
                     try {
                         ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
                         View x = listView.getChildAt(i);
-                        EditText et = (EditText) x.findViewById(R.id.textSmartPayValue);
+                        TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
 
                         Log.d("[PayLoansActivity]", "WE GOT: " + et.getText());
-                        debtList.get(i).addTab(Double.parseDouble(et.getText().toString()));
+                        //debtList.get(i).addTab(Double.parseDouble(et.getText().toString()));
+                        debtList.get(i).addTab(debtList.get(i).smartTab);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -159,23 +150,13 @@ public class PayLoansActivity extends AppCompatActivity {
 
                 smartPay(val, debtList);
 
-                for(int i = 0; i < debtList.size(); i++) {
-                    try {
-                        ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
-                        View x = listView.getChildAt(i);
-                        EditText et2 = (EditText) x.findViewById(R.id.textSmartPayValue);
+                ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
 
-                        et2.setText(String.valueOf(debtList.get(i).smartTab));
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        continue;
-                    }
-                }
+                adapt = new PayLoanAdapter(context, debtList);
+                listView.setAdapter(adapt);
+                adapt.notifyDataSetChanged();
             }
         });
-
-
     }
 
     //SmartPay Algorithm determines best payment strategy
