@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,8 @@ public class PayLoansActivity extends AppCompatActivity {
     boolean isSmartPay = false;
     double payAmount=0;
     int posn;
-
+    double totalAmount;
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     ListView listView;
     PayLoanAdapter adapt;
@@ -76,8 +79,7 @@ public class PayLoansActivity extends AppCompatActivity {
                             final EditText input = new EditText(cont);
                             input.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
                             input.setTextColor(Color.BLACK);
-
-
+                            input.setGravity(Gravity.CENTER_HORIZONTAL);
                             new AlertDialog.Builder(PayLoansActivity.this)
                                     .setTitle("Payment Amount")
                                     .setMessage("Amount to pay:")
@@ -85,25 +87,30 @@ public class PayLoansActivity extends AppCompatActivity {
                                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // Hide keyboard
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(input.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                                             dialog.cancel();
                                         }
                                     })
                                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // Hide keyboard
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(input.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                                             payAmount = Double.parseDouble(input.getText().toString());
-                                            View x = listView.getChildAt(posn);
-                                            TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
-                                            et.setText(String.valueOf(payAmount));
                                             adapt.getItem(posn).smartTab = payAmount;
                                             adapt.notifyDataSetChanged();
+
+                                            mathSmartPay();
                                         }
                                     }).create().show();
-
                         }
                     }
                 });
-
             }
         });
 
@@ -116,6 +123,7 @@ public class PayLoansActivity extends AppCompatActivity {
                 for(int i = 0; i < debtList.size(); i++) {
 
                     try {
+                        // Make payments against the debts using smart tab value.
                         debtList.get(i).addTab(adapt.getItem(i).smartTab);
 
                         Log.d("[PayLoansActivity]", "Paying Loan: (" + debtList.get(i).debtType + "): " + adapt.getItem(i).smartTab);
@@ -125,41 +133,52 @@ public class PayLoansActivity extends AppCompatActivity {
                         continue;
                     }
                 }
-                //TODO: apply changes to persistent data
                 DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), debtList);
 
                 Toast.makeText(getApplicationContext(), "Payments made successfully.",
                         Toast.LENGTH_LONG).show();
                 finish();
                 adapt.notifyDataSetChanged();
-
             }
         });
 
         final Button buttonAlloc = (Button) findViewById(R.id.btnSmartPayAllocate);
         buttonAlloc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
-
                 Log.d("[PayLoansActivity]", "Allocating Smart Pay Money.");
 
                 EditText et = (EditText) findViewById(R.id.editTextSmartPay);
                 Double val = Double.parseDouble(et.getText().toString());
 
+                for(Debt d : debtList) {
+                    d.smartTab = 0;
+                }
+
+                // Apply smart pay algorithm
                 smartPay(val, debtList);
+                mathSmartPay();
 
                 ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
 
                 // Reset data adapter
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
-                //adapt = new PayLoanAdapter(getApplicationContext(), debtList);
-                //listView.setAdapter(adapt);
 
                 // Hide keyboard
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+    }
+
+    public void mathSmartPay() {
+        double total = 0;
+        for(Debt d : debtList) {
+            total += d.smartTab;
+        }
+        totalAmount = total;
+
+        final Button button = (Button) findViewById(R.id.btnPay);
+        button.setText("PAY NOW: $" + df.format(totalAmount));
     }
 
     //SmartPay Algorithm determines best payment strategy
