@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".PayLoansActivity"
-            android:label="@string/title_activity_pay_loans" >
+            android:label="@string/title_activity_pay_loans"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 ∑
