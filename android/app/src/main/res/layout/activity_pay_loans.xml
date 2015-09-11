@@ -20,18 +20,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textViewSmartPay"
-            android:text="Smart Pay Amount: "
+            android:text="Enter Smart Pay Amount: "
             android:textSize="14sp"
             android:lines="1"
             android:layout_gravity="center_horizontal" />
 
-        <EditText
-
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
-            android:text="$"
-            android:id="@+id/editTextSmartPay" />
+            android:id="@+id/linearLayoutSmartPayTextRow"
+            android:layout_below="@id/linearLayoutSmartPay">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="$"
+                android:id="@+id/textViewSmartPayDollarSign"
+                android:layout_marginLeft="120dp"/>
+
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="100dp"
+                android:text=""
+                android:id="@+id/editTextSmartPay" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:text="Smart Pay"
+                android:id="@+id/btnSmartPayAllocate" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -40,16 +62,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayoutTexting"
-        android:layout_alignTop="@id/linearLayoutSmartPay">
+        android:layout_below="@id/linearLayoutSmartPay">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
         android:id="@+id/listViewPayLoans"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="true"
         android:layout_weight="0.62"
-        android:layout_alignParentTop="true"
         android:clickable="true"/>
 
     <Button
@@ -57,6 +77,7 @@
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
         android:layout_height="140dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="-4.5dp"
         android:layout_marginLeft="-4.5dp"
         android:layout_marginBottom="-5.5dp"
