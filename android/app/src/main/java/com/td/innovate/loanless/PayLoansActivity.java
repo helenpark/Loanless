@@ -38,6 +38,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
     ListView listView;
     PayLoanAdapter adapt;
+    ArrayList<Debt> debtList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
 
         listView = (ListView) findViewById(R.id.listViewPayLoans);
-        ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+        debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
         final Context context = getApplicationContext();
 
@@ -138,7 +139,7 @@ public class PayLoansActivity extends AppCompatActivity {
         final Button buttonAlloc = (Button) findViewById(R.id.btnSmartPayAllocate);
         buttonAlloc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+                //ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
                 Log.d("[PayLoansActivity]", "Allocating Smart Pay Money.");
 
@@ -151,12 +152,12 @@ public class PayLoansActivity extends AppCompatActivity {
 
                 // Reset data adapter
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+                //adapt = new PayLoanAdapter(getApplicationContext(), debtList);
+                //listView.setAdapter(adapt);
 
                 // Hide keyboard
-                et.setInputType(0);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-
+                imm.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
     }
