@@ -67,7 +67,7 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
             vh.dueDate.setText(String.format(context.getResources().getString(R.string.listViewItem_NextPayment),
                     String.valueOf("09/25/2015")));
             if (data.title.equals("Student Loan")) {
-                progress = (int) ((data.loanBalance / data.principal) * 100);
+                progress = (int) (((data.principal-data.loanBalance) / data.principal) * 100);
                 vh.progress.setProgress(progress);
                 vh.total.setText("$" + Integer.toString((int) data.principal));
                 vh.picture_activity.setImageResource(R.drawable.placeholder_student_icon);
@@ -78,7 +78,7 @@ public class DebtAdapter extends CustomArrayAdapter<Debt> {
                     vh.background_circle.setColorFilter(Color.parseColor("#FFCA8E"), PorterDuff.Mode.SRC_ATOP);
                 }
             } else if (data.title.equals("Car Loan")) {
-                progress = (int) ((data.loanBalance / data.principal) * 100);
+                progress = (int) (((data.principal-data.loanBalance) / data.principal) * 100);
                 vh.progress.setProgress(progress);
                 vh.total.setText("$" + Integer.toString((int) data.principal));
                 vh.picture_activity.setImageResource(R.drawable.placeholder_car_icon);
