@@ -104,9 +104,8 @@ public class PayLoansActivity extends AppCompatActivity {
                                             payAmount = Double.parseDouble(input.getText().toString());
                                             adapt.getItem(posn).smartTab = payAmount;
                                             adapt.notifyDataSetChanged();
-                                            totalAmount = totalAmount + payAmount;
-                                            final Button button = (Button) findViewById(R.id.btnPay);
-                                            button.setText("PAY NOW: $" + df.format(totalAmount));
+
+                                            mathSmartPay();
                                         }
                                     }).create().show();
                         }
@@ -134,14 +133,12 @@ public class PayLoansActivity extends AppCompatActivity {
                         continue;
                     }
                 }
-                //TODO: apply changes to persistent data
                 DebtStorage.storeDebtToSharedPrefs(getApplicationContext(), debtList);
 
                 Toast.makeText(getApplicationContext(), "Payments made successfully.",
                         Toast.LENGTH_LONG).show();
                 finish();
                 adapt.notifyDataSetChanged();
-
             }
         });
 
@@ -159,6 +156,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
                 // Apply smart pay algorithm
                 smartPay(val, debtList);
+                mathSmartPay();
 
                 ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
 
@@ -170,6 +168,17 @@ public class PayLoansActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
+    }
+
+    public void mathSmartPay() {
+        double total = 0;
+        for(Debt d : debtList) {
+            total += d.smartTab;
+        }
+        totalAmount = total;
+
+        final Button button = (Button) findViewById(R.id.btnPay);
+        button.setText("PAY NOW: $" + df.format(totalAmount));
     }
 
     //SmartPay Algorithm determines best payment strategy
