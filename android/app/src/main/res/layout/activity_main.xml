@@ -2,7 +2,47 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <RelativeLayout
+            android:layout_width="382dp"
+            android:layout_height="41dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="69dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/total_debt"
+                android:layout_marginLeft="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/total_debt_amount"
+                android:layout_alignTop="@+id/total_debt"
+                android:layout_toRightOf="@+id/total_debt"
+                android:layout_toEndOf="@+id/total_debt" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,6 +87,8 @@
                 android:id="@+id/btnMakePayment" />
 
         </LinearLayout>
-    </RelativeLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

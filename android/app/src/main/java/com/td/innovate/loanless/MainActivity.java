@@ -9,7 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Debt> listDebtJsonified = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
+
+
+
         /*for(Debt dz : listDebtJsonified) {
             Log.d("[Main Activity]", "Object was pulled from memory: " + dz.debtType + " " + dz.creditLimit);
         }*/
@@ -69,10 +75,27 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
+
+        final TextView textView = (TextView) findViewById(R.id.total_debt);
+        textView.setText(R.string.total_Debt);
+
+        final TextView textView1 = (TextView) findViewById(R.id.total_debt_amount);
+        textView1.setText(String.valueOf(totalDebt(listDebtJsonified)));
+
+
     }
 
-
-
+    public double totalDebt (ArrayList<Debt> dl) {
+        double total = 0.0;
+        for (Debt d : dl) {
+            if (d.debtType.equalsIgnoreCase("credit")) {
+                total = total + d.creditBalance;
+            } else {
+                total = total + d.loanBalance;
+            }
+        }
+        return total;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
