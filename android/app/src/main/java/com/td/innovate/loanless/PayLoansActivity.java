@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.input.InputManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -15,7 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -109,9 +112,6 @@ public class PayLoansActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
-                //ArrayList<Debt> debtList = new ArrayList<Debt>();
-
-
 
                 for(int i = 0; i < debtList.size(); i++) {
 
@@ -119,7 +119,6 @@ public class PayLoansActivity extends AppCompatActivity {
                         debtList.get(i).addTab(adapt.getItem(i).smartTab);
 
                         Log.d("[PayLoansActivity]", "Paying Loan: (" + debtList.get(i).debtType + "): " + adapt.getItem(i).smartTab);
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -151,9 +150,14 @@ public class PayLoansActivity extends AppCompatActivity {
 
                 ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
 
-                adapt = new PayLoanAdapter(context, debtList);
-                listView.setAdapter(adapt);
-                adapt.notifyDataSetChanged();
+                // Reset data adapter
+                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+
+                // Hide keyboard
+                et.setInputType(0);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+
             }
         });
     }

@@ -42,6 +42,7 @@
             <EditText
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:imeOptions="actionDone"
                 android:layout_width="100dp"
                 android:text=""
                 android:inputType="number"
