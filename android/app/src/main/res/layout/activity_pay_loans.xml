@@ -74,19 +74,30 @@
         android:layout_weight="0.62"
         android:clickable="true"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="1"
-        android:layout_height="140dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="-4.5dp"
-        android:layout_marginLeft="-4.5dp"
-        android:layout_marginBottom="-5.5dp"
-        android:layout_gravity="bottom"
-        android:text="PAY NOW!"
-        android:id="@+id/btnPay"
-        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:layout_height="140dp"
+            android:layout_marginRight="-4.5dp"
+            android:layout_marginLeft="-4.5dp"
+            android:layout_marginBottom="-5.5dp"
+            android:layout_gravity="bottom"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="PAY NOW!"
+                android:id="@+id/btnPay"
+            />
+
+
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
