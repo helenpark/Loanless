@@ -76,7 +76,6 @@ public class PayLoansActivity extends AppCompatActivity {
                             input.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
                             input.setTextColor(Color.BLACK);
 
-                            input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
                             new AlertDialog.Builder(PayLoansActivity.this)
                                     .setTitle("Payment Amount")
