@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Loanless</string>
+    <string name="app_name">Loan-Less</string>
 
     <string name="action_settings">Settings</string>
     <string name="total_Debt">Total Debt Owed:</string>
