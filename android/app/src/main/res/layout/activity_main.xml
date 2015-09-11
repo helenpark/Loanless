@@ -37,7 +37,6 @@
 
             <TextView
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
                 android:text="$0.00"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/total_debt_amount"
@@ -65,7 +64,6 @@
             android:layout_weight="0.62"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/linearLayout"
-            android:headerDividersEnabled="false"
             />
 
         <LinearLayout

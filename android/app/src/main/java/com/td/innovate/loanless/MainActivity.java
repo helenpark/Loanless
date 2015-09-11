@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(R.string.total_Debt);
 
         final TextView textView1 = (TextView) findViewById(R.id.total_debt_amount);
-        textView1.setText(String.valueOf(totalDebt(listDebtJsonified)));
+        DecimalFormat df = new DecimalFormat("#.00");
+        textView1.setText("$" + String.valueOf(df.format(totalDebt(listDebtJsonified))));
 
 
     }
