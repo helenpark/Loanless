@@ -66,7 +66,6 @@ public class PayLoansActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 posn = position;
                 final Context cont = getApplicationContext();
-                Log.i("[ONCLICK]", "HELLO.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -75,7 +74,6 @@ public class PayLoansActivity extends AppCompatActivity {
                             final EditText input = new EditText(cont);
                             input.setTextColor(Color.BLACK);
 
-                            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                             input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
                             new AlertDialog.Builder(PayLoansActivity.this)
@@ -86,7 +84,6 @@ public class PayLoansActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.cancel();
-                                            //ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
                                         }
                                     })
                                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -95,7 +92,6 @@ public class PayLoansActivity extends AppCompatActivity {
                                             payAmount = Double.parseDouble(input.getText().toString());
                                             View x = listView.getChildAt(posn);
                                             TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
-                                            Log.d("HELLO","");
                                             et.setText(String.valueOf(payAmount));
                                             adapt.notifyDataSetChanged();
                                         }
@@ -105,22 +101,12 @@ public class PayLoansActivity extends AppCompatActivity {
                     }
                 });
 
-                //TODO: set the payment portion to payAmount variable
-/*
-                //ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
-                View x = listView.getChildAt(position);
-                TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
-                Log.d("HELLO","");
-                et.setText(String.valueOf(payAmount));
-                adapt.notifyDataSetChanged();
-*/
             }
         });
         Log.d("[CHECK2]", "");
 
 
 
-        //ListView view = (ListView)findViewById(R.id.listViewPayLoans);
 
         int index = 0;
         for(Debt d : debtList) {
@@ -155,6 +141,8 @@ public class PayLoansActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Payments made successfully.",
                         Toast.LENGTH_LONG).show();
                 finish();
+                adapt.notifyDataSetChanged();
+
             }
         });
     }

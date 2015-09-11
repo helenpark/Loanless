@@ -31,17 +31,22 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
         DecimalFormat df = new DecimalFormat("#.00");
 
 
-        vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
-                String.valueOf(df.format(data.creditBalance))));
+
 
         // set the progress bar
         int progress;
         if (data.debtType.equals("credit")) {
+            vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
+                    String.valueOf(df.format(data.creditBalance))));
+            vh.paymentPending.setText(String.format(context.getResources().getString(R.string.listViewItem_Payment),
+                    String.valueOf(df.format(data.minBalance))));
             vh.picture_activity.setImageResource(R.drawable.placeholder_card_icon);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.background_circle.setColorFilter(Color.parseColor("#F26390"), PorterDuff.Mode.SRC_ATOP);
             }
         } else if(data.debtType.equals("loan")){
+            vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
+                    String.valueOf(df.format(data.loanBalance))));
             if (data.title.equals("Student Loan")) {
                 vh.picture_activity.setImageResource(R.drawable.placeholder_student_icon);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -59,6 +64,8 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
                 }
             }
         } else {
+            vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
+                    String.valueOf(df.format(data.creditBalance))));
             vh.picture_activity.setImageResource(R.drawable.placeholder_home_icon);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 vh.background_circle.setColorFilter(Color.parseColor("#B39DDB"), PorterDuff.Mode.SRC_ATOP);
@@ -72,6 +79,7 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
 
         viewHolder.name = (TextView) rowView.findViewById(R.id.loan_item_name);
         viewHolder.balance = (TextView)rowView.findViewById(R.id.loan_item_balance);
+        viewHolder.paymentPending = (TextView)rowView.findViewById(R.id.loan_item_payment);
         viewHolder.picture_activity = (ImageView)rowView.findViewById(R.id.loan_picture_activity);
         viewHolder.background_circle = (ImageView)rowView.findViewById(R.id.loan_background_circle);
 
@@ -81,6 +89,7 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
     private final class ViewHolder{
         TextView name;
         TextView balance;
+        TextView paymentPending;
         ImageView picture_activity;
         ImageView background_circle;
     }
