@@ -44,8 +44,9 @@ public class PayLoansActivity extends AppCompatActivity {
 
         if(!isSmartPay) {
             LinearLayout smartLayout = (LinearLayout) findViewById(R.id.linearLayoutSmartPay);
-            smartLayout.setVisibility(View.INVISIBLE);
+            smartLayout.setVisibility(View.GONE);
             Log.d("[PayLoansActivity]", "Hiding smart payment text selection.");
+
         }
 
 
@@ -157,6 +158,36 @@ public class PayLoansActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        final Button buttonAlloc = (Button) findViewById(R.id.btnSmartPayAllocate);
+        buttonAlloc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+
+                Log.d("[PayLoansActivity]", "Allocating Smart Pay Money.");
+
+                EditText et = (EditText) findViewById(R.id.editTextSmartPay);
+                Double val = Double.parseDouble(et.getText().toString());
+
+                smartPay(val, debtList);
+
+                for(int i = 0; i < debtList.size(); i++) {
+                    try {
+                        ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
+                        View x = listView.getChildAt(i);
+                        EditText et2 = (EditText) x.findViewById(R.id.textSmartPayValue);
+
+                        et2.setText(String.valueOf(debtList.get(i).smartTab));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+                }
+            }
+        });
+
+
     }
 
     //SmartPay Algorithm determines best payment strategy
