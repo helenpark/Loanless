@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,8 @@ public class PayLoansActivity extends AppCompatActivity {
     boolean isSmartPay = false;
     double payAmount=0;
     int posn;
-
+    double totalAmount;
+    DecimalFormat df = new DecimalFormat("#0.00");
 
     ListView listView;
     PayLoanAdapter adapt;
@@ -77,7 +80,6 @@ public class PayLoansActivity extends AppCompatActivity {
                             input.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
                             input.setTextColor(Color.BLACK);
                             input.setGravity(Gravity.CENTER_HORIZONTAL);
-
                             new AlertDialog.Builder(PayLoansActivity.this)
                                     .setTitle("Payment Amount")
                                     .setMessage("Amount to pay:")
@@ -102,13 +104,14 @@ public class PayLoansActivity extends AppCompatActivity {
                                             payAmount = Double.parseDouble(input.getText().toString());
                                             adapt.getItem(posn).smartTab = payAmount;
                                             adapt.notifyDataSetChanged();
+                                            totalAmount = totalAmount + payAmount;
+                                            final Button button = (Button) findViewById(R.id.btnPay);
+                                            button.setText("PAY NOW: $" + df.format(totalAmount));
                                         }
                                     }).create().show();
-
                         }
                     }
                 });
-
             }
         });
 
