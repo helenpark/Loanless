@@ -26,25 +26,27 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Total Debt Owed:"
                 android:id="@+id/total_debt"
-                android:layout_alignParentBottom="true"
-                android:layout_toLeftOf="@+id/total_debt_amount"
-                android:layout_toStartOf="@+id/total_debt_amount"
                 android:paddingRight="15dp"
-                />
+                android:paddingLeft="15dp"
+                android:layout_marginLeft="84dp"
+                android:layout_marginStart="84dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_height="wrap_content"
                 android:text="$0.00"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/total_debt_amount"
                 android:layout_width="wrap_content"
+                android:paddingRight="35dp"
                 android:layout_alignTop="@+id/total_debt"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:paddingRight="35dp"/>
+                android:layout_toRightOf="@+id/total_debt"
+                android:layout_toEndOf="@+id/total_debt" />
 
 
         </RelativeLayout>
