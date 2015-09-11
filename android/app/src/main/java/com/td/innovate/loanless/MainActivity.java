@@ -79,10 +79,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView textView = (TextView) findViewById(R.id.total_debt);
         textView.setText(R.string.total_Debt);
 
-        final TextView textView1 = (TextView) findViewById(R.id.total_debt_amount);
-        textView1.setText(String.valueOf(totalDebt(listDebtJsonified)));
-
-
+        final TextView totalDebt = (TextView) findViewById(R.id.total_debt_amount);
+        totalDebt.setText(String.valueOf(totalDebt(listDebtJsonified)));
     }
 
     public double totalDebt (ArrayList<Debt> dl) {
@@ -127,5 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
         ListView view = (ListView)findViewById(R.id.listView);
         view.setAdapter(adapt);
+
+        final TextView totalDebt = (TextView) findViewById(R.id.total_debt_amount);
+        totalDebt.setText(String.valueOf(totalDebt(listDebt)));
     }
 }
