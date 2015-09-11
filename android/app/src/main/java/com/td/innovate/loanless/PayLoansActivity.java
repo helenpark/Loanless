@@ -87,6 +87,10 @@ public class PayLoansActivity extends AppCompatActivity {
                                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // Hide keyboard
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(input.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                                             dialog.cancel();
                                         }
                                     })
