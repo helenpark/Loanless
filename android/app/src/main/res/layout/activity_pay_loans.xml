@@ -44,6 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="100dp"
                 android:text=""
+                android:inputType="number"
                 android:id="@+id/editTextSmartPay" />
 
             <Button

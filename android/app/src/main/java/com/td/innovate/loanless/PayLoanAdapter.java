@@ -28,11 +28,13 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
         ViewHolder vh = (ViewHolder) viewHolder;
         vh.name.setText(String.valueOf(data.title));
 
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("#0.00");
 
 
         vh.balance.setText(String.format(context.getResources().getString(R.string.listViewItem_Balance),
                 String.valueOf(df.format(data.creditBalance))));
+
+        vh.textSmartPayValue.setText("$" +  String.valueOf(df.format(data.smartTab)));
 
         // set the progress bar
         int progress;
@@ -74,6 +76,8 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
         viewHolder.balance = (TextView)rowView.findViewById(R.id.loan_item_balance);
         viewHolder.picture_activity = (ImageView)rowView.findViewById(R.id.loan_picture_activity);
         viewHolder.background_circle = (ImageView)rowView.findViewById(R.id.loan_background_circle);
+        viewHolder.textSmartPayValue =(TextView)rowView.findViewById(R.id.textSmartPayValue);
+
 
         return viewHolder;
     }
@@ -83,5 +87,6 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
         TextView balance;
         ImageView picture_activity;
         ImageView background_circle;
+        TextView textSmartPayValue;
     }
 }
