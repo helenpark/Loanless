@@ -109,18 +109,17 @@ public class PayLoansActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+                //ArrayList<Debt> debtList = new ArrayList<Debt>();
 
-                Log.d("[PayLoansActivity]", "PayingLoan: " + debtList.get(0).debtType);
+
 
                 for(int i = 0; i < debtList.size(); i++) {
-                    try {
-                        ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
-                        View x = listView.getChildAt(i);
-                        TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
 
-                        Log.d("[PayLoansActivity]", "WE GOT: " + et.getText());
-                        //debtList.get(i).addTab(Double.parseDouble(et.getText().toString()));
-                        debtList.get(i).addTab(debtList.get(i).smartTab);
+                    try {
+                        debtList.get(i).addTab(adapt.getItem(i).smartTab);
+
+                        Log.d("[PayLoansActivity]", "Paying Loan: (" + debtList.get(i).debtType + "): " + adapt.getItem(i).smartTab);
+
 
                     } catch (Exception e) {
                         e.printStackTrace();

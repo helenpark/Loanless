@@ -32,7 +32,7 @@ public class PayLoanAdapter extends CustomArrayAdapter<Debt> {
 
 
 
-
+        vh.paymentPending.setText("");
         vh.textSmartPayValue.setText("$" +  String.valueOf(df.format(data.smartTab)));
 
         // set the progress bar
