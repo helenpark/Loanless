@@ -41,6 +41,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
     ListView listView;
     PayLoanAdapter adapt;
+    ArrayList<Debt> debtList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class PayLoansActivity extends AppCompatActivity {
 
 
         listView = (ListView) findViewById(R.id.listViewPayLoans);
-        ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
+        debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
 
         final Context context = getApplicationContext();
 
@@ -78,6 +79,7 @@ public class PayLoansActivity extends AppCompatActivity {
                             final EditText input = new EditText(cont);
                             input.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
                             input.setTextColor(Color.BLACK);
+                            input.setGravity(Gravity.CENTER_HORIZONTAL);
                             new AlertDialog.Builder(PayLoansActivity.this)
                                     .setTitle("Payment Amount")
                                     .setMessage("Amount to pay:")
@@ -91,10 +93,11 @@ public class PayLoansActivity extends AppCompatActivity {
                                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            // Hide keyboard
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(input.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                                             payAmount = Double.parseDouble(input.getText().toString());
-                                            View x = listView.getChildAt(posn);
-                                            TextView et = (TextView) x.findViewById(R.id.textSmartPayValue);
-                                            et.setText(String.valueOf(payAmount));
                                             adapt.getItem(posn).smartTab = payAmount;
                                             adapt.notifyDataSetChanged();
                                             totalAmount = totalAmount + payAmount;
@@ -117,6 +120,7 @@ public class PayLoansActivity extends AppCompatActivity {
                 for(int i = 0; i < debtList.size(); i++) {
 
                     try {
+                        // Make payments against the debts using smart tab value.
                         debtList.get(i).addTab(adapt.getItem(i).smartTab);
 
                         Log.d("[PayLoansActivity]", "Paying Loan: (" + debtList.get(i).debtType + "): " + adapt.getItem(i).smartTab);
@@ -140,13 +144,16 @@ public class PayLoansActivity extends AppCompatActivity {
         final Button buttonAlloc = (Button) findViewById(R.id.btnSmartPayAllocate);
         buttonAlloc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ArrayList<Debt> debtList = DebtStorage.getDebtFromSharedPrefs(getApplicationContext());
-
                 Log.d("[PayLoansActivity]", "Allocating Smart Pay Money.");
 
                 EditText et = (EditText) findViewById(R.id.editTextSmartPay);
                 Double val = Double.parseDouble(et.getText().toString());
 
+                for(Debt d : debtList) {
+                    d.smartTab = 0;
+                }
+
+                // Apply smart pay algorithm
                 smartPay(val, debtList);
 
                 ListView listView = (ListView) findViewById(R.id.listViewPayLoans);
@@ -155,10 +162,8 @@ public class PayLoansActivity extends AppCompatActivity {
                 ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
 
                 // Hide keyboard
-                et.setInputType(0);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-
+                imm.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
     }
